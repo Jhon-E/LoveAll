@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import * as THREE from "three";
 import Escena from "./components/Escena";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { opciones } from "./data/opciones";

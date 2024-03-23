@@ -1,11 +1,11 @@
 import * as THREE from "three";
 import { useRef, useEffect, useState } from "react";
+import floating from "../components/Floating.js"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import "../styles/app.css";
 
 const Escena = ({ objeto, background, color }) => {
   let renderer, camera, orbitControls, scene;
-  let step = 0;
   const bg = parseInt(background, 16);
   const mountRef = useRef(null);
   const backgroundColor = new THREE.Color(bg);
@@ -57,29 +57,20 @@ const Escena = ({ objeto, background, color }) => {
     mountRef.current.appendChild(renderer.domElement);
   }
 
-  function floating() {
-    if (objeto) {
-      step += 1.5 / 100;
-      let mesh = objeto.children[0];
-      if (mesh) {
-        mesh.position.y = (Math.sin(step) + 1) / 4;
-        mesh.rotation.y = step;
-      }
-      scene.add(objeto);
-      //console.log(mesh.position.y);
-    }
-    //console.log(gltfObject.children[0])
-  }
-
   function animate() {
     requestAnimationFrame(animate);
-    floating();
+    floating(objeto, scene)
     orbitControls.update();
     renderer.render(scene, camera);
   }
 
   useEffect(() => {
     init();
+    if (objeto && scene) {
+      const mesh = objeto.children[0];
+      mesh.material.color.set(parseInt(color, 16));
+      scene.background = backgroundColor;
+    }
     animate();
     window.addEventListener("resize", resize);
 
@@ -88,27 +79,13 @@ const Escena = ({ objeto, background, color }) => {
       renderer.dispose();
       mountRef.current.removeChild(renderer.domElement);
     };
-  }, [bg]);
-
-  useEffect(() => {
-    if (objeto) {
-      const mesh = objeto.children[0];
-      mesh.material.color.set(parseInt(color, 16));
-    }
-  }, [color]);
-
-  useEffect(() => {
-    // Actualizar el color de fondo de la escena cuando cambie la propiedad background
-    if (scene) {
-      scene.background = backgroundColor;
-    }
-  }, [background]);
+  }, [bg, color]);
 
   return (
     <div
       className="Contenedor3D"
       ref={mountRef}
-      style={{ width: "100%", height: "100%" }} 
+      style={{ width: "100%", height: "100%" }}
     ></div>
   );
 };
