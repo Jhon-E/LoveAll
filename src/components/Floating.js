@@ -1,19 +1,29 @@
-const floating = (objeto, scene) => {
+const floating = (objeto, scene, speed) => {
+  const now = Date.now();
+  const lastTime = parseFloat(localStorage.getItem("lastTime")) || now;
+  const elapsedTime = now - lastTime;
+
+  const velocity = 1.5 / 100;
+  const angularVelocity = velocity * elapsedTime;
+
   let step = parseFloat(localStorage.getItem("lastStep")) || 0;
-  if (step > 360) {
-    step = 0;
+  console.log(step)
+  let rotation = step + angularVelocity;
+  let speedRot;
+  if (rotation >= 3600) {
+    rotation = 0;
   }
-  let velocity = step + 1.5 / 100;
-  console.table(velocity);
+
   let mesh = objeto.children[0];
   if (mesh) {
-    mesh.position.y = Math.sin(velocity) / 4;
-    mesh.rotation.y = velocity + 1000;
+    speedRot = rotation / speed;
+    mesh.position.y = Math.sin(rotation/speed) / 4;
+    mesh.rotation.y = speedRot;
   }
   scene.add(objeto);
-  localStorage.setItem("lastStep", step);
-  //console.log(mesh.position.y)
-  //console.log(gltfObject.children[0])
+
+  localStorage.setItem("lastTime", now.toString());
+  localStorage.setItem("lastStep", rotation);
 };
 
 export default floating;

@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { useRef, useEffect, useState } from "react";
-import floating from "../components/Floating.js"
+import floating from "../components/Floating.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import "../styles/app.css";
 
@@ -59,7 +59,7 @@ const Escena = ({ objeto, background, color }) => {
 
   function animate() {
     requestAnimationFrame(animate);
-    floating(objeto, scene)
+    floating(objeto, scene, 10);
     orbitControls.update();
     renderer.render(scene, camera);
   }
