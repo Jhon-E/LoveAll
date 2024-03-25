@@ -7,7 +7,6 @@ const floating = (objeto, scene, speed) => {
   const angularVelocity = velocity * elapsedTime;
 
   let step = parseFloat(localStorage.getItem("lastStep")) || 0;
-  console.log(step)
   let rotation = step + angularVelocity;
   let speedRot;
   if (rotation >= 3600) {

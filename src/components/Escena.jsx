@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import floating from "../components/Floating.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import "../styles/app.css";
