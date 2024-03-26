@@ -40,7 +40,8 @@ const Heart = () => {
             objeto={gltfObject}
             background={back}
             color={color}
-            isfloating={true}
+            coor_camera={[10, 0, 0]}
+            isfloating={false}
           />
         ) : (
           "cargando..."

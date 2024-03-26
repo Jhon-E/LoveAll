@@ -1,14 +1,19 @@
 import * as THREE from "three";
-import { useRef, useEffect } from "react";
-import floating from "../components/Floating.js";
+import { useRef, useEffect, useState } from "react";
+import { floating } from "./functions.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import "../styles/app.css";
 
-const Escena = ({ objeto, background, color, isfloating }) => {
+const Escena = ({ objeto, background, color, isfloating, coor_camera }) => {
   let renderer, camera, orbitControls, scene;
-  const bg = parseInt(background, 16);
   const mountRef = useRef(null);
-  const backgroundColor = new THREE.Color(bg);
+  const [backColor, setBackColor] = useState(
+    new THREE.Color(parseInt(background, 16))
+  );
+  const [c, setC] = useState(color);
+  let x = coor_camera[0];
+  let y = coor_camera[1];
+  let z = coor_camera[2];
 
   function resize() {
     renderer.setSize(
@@ -28,9 +33,7 @@ const Escena = ({ objeto, background, color, isfloating }) => {
     camera = new THREE.PerspectiveCamera(25, width / height, 0.1, 1000);
 
     scene.add(camera);
-
-    camera.position.set(10, 0, 0);
-    camera.lookAt(new THREE.Vector3());
+    scene.add(objeto);
 
     renderer = new THREE.WebGLRenderer();
 
@@ -57,33 +60,53 @@ const Escena = ({ objeto, background, color, isfloating }) => {
     mountRef.current.appendChild(renderer.domElement);
   }
 
+  useEffect(() => {
+    setC(color);
+    setBackColor(new THREE.Color(parseInt(background, 16)));
+  }, [color, background]);
+
   function animate() {
     requestAnimationFrame(animate);
     if (isfloating) {
       floating(objeto, scene, 10);
     } else {
+      camera.position.set(x, y, z);
       orbitControls.update();
       renderer.render(scene, camera);
-      scene.add(objeto)
     }
   }
 
   useEffect(() => {
     init();
-    animate()
+    animate();
     if (objeto && scene) {
       const mesh = objeto.children[0];
-      mesh.material.color.set(parseInt(color, 16));
-      scene.background = backgroundColor;
+      mesh.material.color.set(parseInt(c, 16));
+      scene.background = backColor;
     }
+
+    camera.updateProjectionMatrix();
+    scene.add(camera);
     window.addEventListener("resize", resize);
 
     return () => {
       window.removeEventListener("resize", resize);
-      renderer.dispose();
       mountRef.current.removeChild(renderer.domElement);
+      renderer.dispose();
     };
-  }, [bg, color]);
+  }, [c, backColor, coor_camera]);
+
+  /* useEffect(() => {
+    if (scene) {
+      if (objeto) {
+        const mesh = objeto.children[0];
+        mesh.material.color.set(parseInt(c, 16));
+      }
+      scene.background = backColor;
+      animate();
+    }
+    window.addEventListener("resize", resize);
+  }, [c, coor_camera]); */
 
   return <div ref={mountRef} style={{ width: "100%", height: "100%" }}></div>;
 };
