@@ -1,30 +1,24 @@
 import { useEffect, useState } from "react";
 import Escena from "./components/Escena";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { opciones } from "./data/opciones.js"
+import { opciones } from "./data/opciones.js";
+import { LoadMesh } from "./components/LoadMesh.jsx";
 
 const Heart = () => {
-
   const [gltfObject, setGltfObject] = useState();
   const [back, setBack] = useState(opciones[0].background);
   const [color, setColor] = useState(opciones[0].color);
 
+  async function cargarModelo(url) {
+    try {
+      const modelo = await LoadMesh(url);
+      setGltfObject(modelo);
+    } catch (error) {
+      console.error("Error al cargar el modelo:", error);
+    }
+  }
+
   useEffect(() => {
-    // CREO EL LOADER PARA CARGAR EL ARCHIVO GTLF Y LO AÑADO A LA ESCENA
-
-    const loader = new GLTFLoader();
-
-    loader.load(
-      "./Models/corazon.gltf",
-      (gltf) => {
-        setGltfObject(gltf.scene);
-        console.log("Loaded");
-      },
-      () => console.log("loading"),
-      function (error) {
-        console.error(error);
-      }
-    );
+    cargarModelo("./Models/corazon.gltf");
   }, []);
 
   const onHover = (e) => {
@@ -42,7 +36,12 @@ const Heart = () => {
     <div className="container">
       <div className="escena">
         {gltfObject ? (
-          <Escena objeto={gltfObject} background={back} color={color} />
+          <Escena
+            objeto={gltfObject}
+            background={back}
+            color={color}
+            isfloating={true}
+          />
         ) : (
           "cargando..."
         )}

@@ -4,7 +4,7 @@ import floating from "../components/Floating.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import "../styles/app.css";
 
-const Escena = ({ objeto, background, color }) => {
+const Escena = ({ objeto, background, color, isfloating }) => {
   let renderer, camera, orbitControls, scene;
   const bg = parseInt(background, 16);
   const mountRef = useRef(null);
@@ -59,19 +59,23 @@ const Escena = ({ objeto, background, color }) => {
 
   function animate() {
     requestAnimationFrame(animate);
-    floating(objeto, scene, 10);
-    orbitControls.update();
-    renderer.render(scene, camera);
+    if (isfloating) {
+      floating(objeto, scene, 10);
+    } else {
+      orbitControls.update();
+      renderer.render(scene, camera);
+      scene.add(objeto)
+    }
   }
 
   useEffect(() => {
     init();
+    animate()
     if (objeto && scene) {
       const mesh = objeto.children[0];
       mesh.material.color.set(parseInt(color, 16));
       scene.background = backgroundColor;
     }
-    animate();
     window.addEventListener("resize", resize);
 
     return () => {
@@ -81,13 +85,7 @@ const Escena = ({ objeto, background, color }) => {
     };
   }, [bg, color]);
 
-  return (
-    <div
-      className="Contenedor3D"
-      ref={mountRef}
-      style={{ width: "100%", height: "100%" }}
-    ></div>
-  );
+  return <div ref={mountRef} style={{ width: "100%", height: "100%" }}></div>;
 };
 
 export default Escena;
