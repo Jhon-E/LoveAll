@@ -69,11 +69,10 @@ const Escena = ({ objeto, background, color, isfloating, coor_camera }) => {
     requestAnimationFrame(animate);
     if (isfloating) {
       floating(objeto, scene, 10);
-    } else {
-      camera.position.set(x, y, z);
-      orbitControls.update();
-      renderer.render(scene, camera);
     }
+    camera.position.set(x, y, z);
+    orbitControls.update();
+    renderer.render(scene, camera);
   }
 
   useEffect(() => {

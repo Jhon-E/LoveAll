@@ -41,7 +41,7 @@ const Heart = () => {
             background={back}
             color={color}
             coor_camera={[10, 0, 0]}
-            isfloating={false}
+            isfloating={true}
           />
         ) : (
           "cargando..."
