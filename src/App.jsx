@@ -32,7 +32,7 @@ function App() {
   useEffect(handleHover, [hoverOrange, hoverGreen, hoverPurple, hoverYellow]);
   return (
     <>
-      <div className=" h-screen w-screen flex justify-center items-center">
+      <div className=" h-dvh w-screen flex justify-center items-center">
         <Canvas shadows camera={{ position: [0, 4, 8] }}>
           {/* GENERA SOMBRAS EN MI SCENA */}
           <SoftShadows size={10} focus={10} samples={6} />
@@ -40,12 +40,12 @@ function App() {
           <color attach="background" args={["#BA823B"]} />
           {/* ESTOS COMPONENTES SON HELPERS SOLAMENTE */}
           <CameraControls />
-          <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
+          {/* <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
             <GizmoViewport
               axisColors={["red", "green", "blue"]}
               labelColor="black"
             />
-          </GizmoHelper>
+          </GizmoHelper> */}
           {/* ----------------------- */}
           {/* DEFINE LA LUZ AMBIENTAL DE LA SCENA */}
           <ambientLight intensity={1.5} />
@@ -63,7 +63,7 @@ function App() {
           <Floor />
         </Canvas>
       </div>
-      <ul className="absolute h-full w-1/5 top-0 grid gap-8 place-content-between p-36 right-20 uppercase font-extrabold list-none select-none">
+      <ul className="absolute sm:h-full sm:w-1/5 sm:top-0 sm:grid sm:gap-8 sm:place-content-between sm:p-36 sm:right-20 uppercase font-extrabold list-none select-none flex bottom-4 flex-wrap gap-3 justify-center ">
         <li
           className=" bg-slate-200 w-36 text-center p-3 rounded-lg cursor-pointer hover:bg-orange-500 hover:text-white transition-colors hover:bg-opacity-60 bg-opacity-45"
           onMouseEnter={() => setHoverOrange(true)}
