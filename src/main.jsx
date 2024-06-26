@@ -1,28 +1,3 @@
-<<<<<<< HEAD
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
-import Gift from "./Gift.jsx";
-import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-//CONFIGURO LAS RUTAS
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-  },
-  {
-    path: "/Paola",
-    element: <Gift />,
-  },
-]);
-
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <RouterProvider router={router} />
-);
-=======
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
@@ -33,4 +8,3 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <App />
   </React.StrictMode>,
 )
->>>>>>> master

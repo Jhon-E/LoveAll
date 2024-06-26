@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-import "./styles/app.css";
-import Heart from "./Heart";
-
-function App() {
-
-  return (
-    <Heart/>
-  );
-}
-
-export default App;
-=======
 import { Suspense, useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
@@ -111,4 +98,3 @@ function App() {
 }
 
 export default App;
->>>>>>> master
